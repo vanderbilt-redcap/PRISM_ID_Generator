@@ -1,0 +1,35 @@
+{
+	"name": "PRISM_ID_Generator",
+	"namespace": "Vanderbilt\\PRISM_ID_Generator",
+	"framework-version": 5,
+	"description": "REDCap external module used to generate PRISM Participant IDs.",
+	"documentation": "README.md",
+	"authors": [
+		{
+			"name": "Carl Reed",
+			"email": "datacore@vumc.org",
+			"institution": "Vanderbilt University Medical Center"
+		}
+	],
+	"versions": {
+		"1.0.0": "Added save_record hook that generates PRISM Participant IDs"
+	},
+	"permissions": [
+		"redcap_save_record"
+	],
+	"enable-every-page-hooks-on-system-pages": false,
+	"links": {
+		"project": [],
+		"control-center": []
+	},
+	"no-auth-pages": [],
+	"project-settings": [],
+	"system-settings": [],
+	"crons": [],
+	"compatibility": {
+		"php-version-min": "7.0.0",
+		"php-version-max": "",
+		"redcap-version-min": "9.1.1",
+		"redcap-version-max": ""
+	}
+}
