@@ -2,7 +2,7 @@
 The purpose of this module is to generate PRISM Participant IDs.
 
 The module is triggered when any record in the project with the following conditions is saved:
-* The record's [test] and [patient_status_3] values are non-empty
+* The record's [test] and [patient_status_2] values are non-empty
 * The record's [unique_id_2] value is empty
 
 The module will look at all other existing PRISM Participant IDs in the project to determine the correct ID for the record being saved. The module will then set the [unique_id_2] field of the saved record and log success or failure (visible in a project's Logging page).
