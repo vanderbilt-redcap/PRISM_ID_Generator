@@ -7,7 +7,7 @@ class PRISM_ID_Generator extends \ExternalModules\AbstractExternalModule {
 		// A PRISM Participant ID looks like '1234-001-NC' or '1235-002'
 		// Where the first four digits come from a record's [test] value (previously determined). This is the site number for the site the patient belongs to.
 		// The second part of the id '001', '002', and so on, is the sequential, 3 digit, padded, numeric component of the PRISM Participant ID
-		// Patients who do not consent ([patient_status_3] == '3') have a '-NC' appended to their PRISM Participant ID
+		// Patients who do not consent ([patient_status_2] == '3') have a '-NC' appended to their PRISM Participant ID
 		
 		if (empty($record) or empty($project_id)) {
 			return;
@@ -15,14 +15,14 @@ class PRISM_ID_Generator extends \ExternalModules\AbstractExternalModule {
 		
 		/* get this record's values for these fields:
 			[test]
-			[patient_status_3]
+			[patient_status_2]
 			[unique_id_2]
 		*/
 		$rid_field = $this->getRecordIDField($project_id);
 		$record_data = json_decode(\REDCap::getData($project_id, 'json', $record, [
 			$rid_field,
 			'test',
-			'patient_status_3',
+			'patient_status_2',
 			'unique_id_2'
 		]));
 		if (empty($record_data)) {
@@ -35,10 +35,10 @@ class PRISM_ID_Generator extends \ExternalModules\AbstractExternalModule {
 		// ensure precursors all exist
 		$precursor_fields = [
 			'test',
-			'patient_status_3'
+			'patient_status_2'
 		];
 		foreach ($precursor_fields as $field_name) {
-			if (empty($record_data->$field_name)) {
+			if (empty($record_data->$field_name) and $record_data->$field_name !== 0 and $record_data->$field_name !== '0') {
 				// empty $field_name, aborting PRISM ID generation
 				return;
 			}
@@ -50,7 +50,7 @@ class PRISM_ID_Generator extends \ExternalModules\AbstractExternalModule {
 			return;
 		}
 		
-		// Record saved with non-empty [test] and [patient_status_3] fields and an empty [unique_id_2] field. Generating PRISM Participant ID now.
+		// Record saved with non-empty [test] and [patient_status_2] fields and an empty [unique_id_2] field. Generating PRISM Participant ID now.
 		
 		// get all existing PRISM Participant IDs
 		$prism_id_data = json_decode(\REDCap::getData($project_id, 'json', NULL, [
@@ -62,7 +62,7 @@ class PRISM_ID_Generator extends \ExternalModules\AbstractExternalModule {
 		$last_id_number = 0;
 		// sequential numeric component advances separately for consenting and non-consenting patients
 		// such that '1234-001-NC' and '1234-001' are both valid PRISM ids
-		if ($record_data->patient_status_3 == '3') {
+		if ($record_data->patient_status_2 == '3') {
 			$saved_record_consented = false;
 		} else {
 			$saved_record_consented = true;

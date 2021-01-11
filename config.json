@@ -12,7 +12,8 @@
 		}
 	],
 	"versions": {
-		"1.0.0": "Added save_record hook that generates PRISM Participant IDs"
+		"1.0.0": "Added save_record hook that generates PRISM Participant IDs",
+		"1.0.1": "Changed patient_status_3 to patient_status_2 instead"
 	},
 	"permissions": [
 		"redcap_save_record"
@@ -23,13 +24,14 @@
 		"control-center": []
 	},
 	"no-auth-pages": [],
-	"project-settings": [],
+	"project-settings": [
+	],
 	"system-settings": [],
 	"crons": [],
 	"compatibility": {
 		"php-version-min": "7.0.0",
 		"php-version-max": "",
-		"redcap-version-min": "9.1.1",
+		"redcap-version-min": "10.6.4",
 		"redcap-version-max": ""
 	}
 }
