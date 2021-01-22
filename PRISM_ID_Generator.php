@@ -9,7 +9,11 @@ class PRISM_ID_Generator extends \ExternalModules\AbstractExternalModule {
 		// The second part of the id '001', '002', and so on, is the sequential, 3 digit, padded, numeric component of the PRISM Participant ID
 		// Patients who do not consent ([patient_status_2] == '3') have a '-NC' appended to their PRISM Participant ID
 		
+		$verbose = $this->getProjectSetting('verbose_logging');
 		if (empty($record) or empty($project_id)) {
+			if ($verbose) {
+				\REDCap::logEvent("PRISM ID Generator Module", "Didn't generate PRISM Participant ID upon save record (empty record or project_id variables)");
+			}
 			return;
 		}
 		
@@ -26,6 +30,9 @@ class PRISM_ID_Generator extends \ExternalModules\AbstractExternalModule {
 			'unique_id_2'
 		]));
 		if (empty($record_data)) {
+			if ($verbose) {
+				\REDCap::logEvent("PRISM ID Generator Module", "Didn't generate PRISM Participant ID upon save record (empty record_data variable)");
+			}
 			return;
 		}
 		
@@ -40,6 +47,9 @@ class PRISM_ID_Generator extends \ExternalModules\AbstractExternalModule {
 		foreach ($precursor_fields as $field_name) {
 			if (empty($record_data->$field_name) and $record_data->$field_name !== 0 and $record_data->$field_name !== '0') {
 				// empty $field_name, aborting PRISM ID generation
+				if ($verbose) {
+					\REDCap::logEvent("PRISM ID Generator Module", "Didn't generate PRISM Participant ID upon save record (empty $field_name variable)");
+				}
 				return;
 			}
 		}
@@ -47,6 +57,9 @@ class PRISM_ID_Generator extends \ExternalModules\AbstractExternalModule {
 		// ensure this record doesn't already have a PRISM Participant ID ([unique_id_2])
 		if (!empty($record_data->unique_id_2)) {
 			// record has a non-empty [unique_id_2], aborting PRISM ID generation
+			if ($verbose) {
+				\REDCap::logEvent("PRISM ID Generator Module", "Didn't generate PRISM Participant ID upon save record (non-empty unique_id_2 variable)");
+			}
 			return;
 		}
 		

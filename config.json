@@ -25,6 +25,13 @@
 	},
 	"no-auth-pages": [],
 	"project-settings": [
+		{
+			"key": "verbose_logging",
+			"name": "Verbose Logging",
+			"required": false,
+			"type": "checkbox",
+			"repeatable": false
+		}
 	],
 	"system-settings": [],
 	"crons": [],
