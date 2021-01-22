@@ -37,6 +37,7 @@ class PRISM_ID_Generator extends \ExternalModules\AbstractExternalModule {
 		}
 		
 		// pull object out of array
+		$init_record_data = $record_data;
 		$record_data = $record_data[0];
 		
 		// ensure precursors all exist
@@ -48,7 +49,7 @@ class PRISM_ID_Generator extends \ExternalModules\AbstractExternalModule {
 			if (empty($record_data->$field_name) and $record_data->$field_name !== 0 and $record_data->$field_name !== '0') {
 				// empty $field_name, aborting PRISM ID generation
 				if ($verbose) {
-					\REDCap::logEvent("PRISM ID Generator Module", "Didn't generate PRISM Participant ID upon save record (empty $field_name variable)");
+					\REDCap::logEvent("PRISM ID Generator Module", "Didn't generate PRISM Participant ID upon save record (empty $field_name variable). Record data (for debugging): " . print_r($init_record_data, true));
 				}
 				return;
 			}
