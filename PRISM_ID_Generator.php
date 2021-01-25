@@ -17,18 +17,16 @@ class PRISM_ID_Generator extends \ExternalModules\AbstractExternalModule {
 			return;
 		}
 		
-		/* get this record's values for these fields:
-			[test]
-			[patient_status_2]
-			[unique_id_2]
-		*/
+		// get data for this record
 		$rid_field = $this->getRecordIDField($project_id);
-		$record_data = json_decode(\REDCap::getData($project_id, 'json', $record, [
-			$rid_field,
-			'test',
-			'patient_status_2',
-			'unique_id_2'
-		]));
+		$params = [
+			"project_id" => $project_id,
+			"return_format" => 'json',
+			"records" => $record,
+			"fields" => [$rid_field, 'test', 'patient_status_2', 'unique_id_2'],
+			"events" => 'enroll_arm_1'
+		];
+		$record_data = json_decode(\REDCap::getData($params));
 		if (empty($record_data)) {
 			if ($verbose) {
 				\REDCap::logEvent("PRISM ID Generator Module", "Didn't generate PRISM Participant ID upon save record (empty record_data variable)");
